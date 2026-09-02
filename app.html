@@ -8,78 +8,112 @@
 </head>
 <body class="app-body">
 
-  <div class="app-shell">
-    <nav class="sidebar" aria-label="Sections">
-      <div class="sidebar-brand">
-        <span class="status-dot status-dot--on" aria-hidden="true"></span>
-        <span class="sidebar-brand-text">home</span>
+<div class="app-shell">
+  <nav class="sidebar" aria-label="Sections">
+    <div class="sidebar-brand">
+      <span class="status-dot status-dot--on" aria-hidden="true"></span>
+      <span class="sidebar-brand-text">home</span>
+    </div>
+
+    <ul class="nav-list">
+      <li>
+        <button class="nav-tab is-active" data-section="files">
+          <span class="nav-tab-icon" aria-hidden="true">▤</span>
+          <span>Files</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-tab" data-section="smarthome">
+          <span class="nav-tab-icon" aria-hidden="true">◈</span>
+          <span>Smart Home</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-tab" data-section="notes">
+          <span class="nav-tab-icon" aria-hidden="true">▥</span>
+          <span>Notes</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-tab" data-section="lists">
+          <span class="nav-tab-icon" aria-hidden="true">☰</span>
+          <span>Lists</span>
+        </button>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <span class="user-email" id="user-email"></span>
+      <button class="btn-ghost" id="signout-btn">Sign out</button>
+    </div>
+  </nav>
+
+  <main class="main-panel">
+    <section class="section-view is-active" id="section-files" aria-labelledby="section-files-title">
+      <div class="section-header">
+        <h1 class="section-title" id="section-files-title">Files</h1>
+        <p class="section-sub">Personal file storage.</p>
       </div>
-
-      <ul class="nav-list">
-        <li>
-          <button class="nav-tab is-active" data-section="files">
-            <span class="nav-tab-icon" aria-hidden="true">▤</span>
-            <span>Files</span>
-          </button>
-        </li>
-        <li>
-          <button class="nav-tab" data-section="smarthome">
-            <span class="nav-tab-icon" aria-hidden="true">◈</span>
-            <span>Smart Home</span>
-          </button>
-        </li>
-        <li>
-          <button class="nav-tab" data-section="notes">
-            <span class="nav-tab-icon" aria-hidden="true">▥</span>
-            <span>Notes</span>
-          </button>
-        </li>
-      </ul>
-
-      <div class="sidebar-footer">
-        <span class="user-email" id="user-email"></span>
-        <button class="btn-ghost" id="signout-btn">Sign out</button>
+      <div class="empty-state">
+        <p>File storage isn't wired up yet — this tab is a placeholder for now.</p>
       </div>
-    </nav>
+    </section>
 
-    <main class="main-panel">
-      <section class="section-view is-active" id="section-files" aria-labelledby="section-files-title">
-        <div class="section-header">
-          <h1 class="section-title" id="section-files-title">Files</h1>
-          <p class="section-sub">Personal file storage.</p>
-        </div>
-        <div class="empty-state">
-          <p>File storage isn't wired up yet — this tab is a placeholder for now.</p>
-        </div>
-      </section>
+    <section class="section-view" id="section-smarthome" aria-labelledby="section-smarthome-title">
+      <div class="section-header">
+        <h1 class="section-title" id="section-smarthome-title">Smart Home</h1>
+        <p class="section-sub">Outlets and lighting control.</p>
+      </div>
+      <div class="empty-state">
+        <p>Smart home control isn't wired up yet — this tab is a placeholder for now.</p>
+      </div>
+    </section>
 
-      <section class="section-view" id="section-smarthome" aria-labelledby="section-smarthome-title">
-        <div class="section-header">
-          <h1 class="section-title" id="section-smarthome-title">Smart Home</h1>
-          <p class="section-sub">Outlets and lighting control.</p>
-        </div>
-        <div class="empty-state">
-          <p>Smart home control isn't wired up yet — this tab is a placeholder for now.</p>
-        </div>
-      </section>
-
-      <section class="section-view" id="section-notes" aria-labelledby="section-notes-title">
-        <div class="section-header">
+    <section class="section-view" id="section-notes" aria-labelledby="section-notes-title">
+      <div class="section-header section-header--row">
+        <div>
           <h1 class="section-title" id="section-notes-title">Notes</h1>
-          <p class="section-sub">Noteboard and lists.</p>
+          <p class="section-sub">Click a note to edit. Drag to reorder.</p>
         </div>
-        <div class="empty-state">
-          <p>Notes storage isn't wired up yet — this tab is a placeholder for now.</p>
-        </div>
-      </section>
-    </main>
-  </div>
+        <button class="btn-primary" id="add-note-btn">+ New note</button>
+      </div>
+      <div class="notes-grid" id="notes-grid"></div>
+      <p class="empty-state" id="notes-empty" hidden>No notes yet — add one to get started.</p>
+    </section>
 
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
-  <script src="firebase-config.js"></script>
-  <script src="app.js"></script>
+    <section class="section-view" id="section-lists" aria-labelledby="section-lists-title">
+      <div class="section-header">
+        <h1 class="section-title" id="section-lists-title">Lists</h1>
+        <p class="section-sub">Checklists and to-do lists.</p>
+      </div>
+      <div class="empty-state">
+        <p>Lists aren't wired up yet — this tab is a placeholder for now.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Note editor modal -->
+  <div class="modal-overlay" id="note-modal-overlay" hidden>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="note-modal-title">
+      <input class="note-title-input" id="note-title-input" placeholder="Title" />
+      <textarea class="note-body-input" id="note-body-input" placeholder="Write something…"></textarea>
+      <div class="modal-actions">
+        <button class="btn-danger" id="note-delete-btn">Delete</button>
+        <div class="modal-actions-right">
+          <button class="btn-ghost" id="note-cancel-btn">Cancel</button>
+          <button class="btn-primary" id="note-save-btn">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-storage-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="notes.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

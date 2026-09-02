@@ -1,12 +1,14 @@
 :root {
-  --bg: #0d1210;
-  --panel: #121815;
-  --panel-raised: #161d19;
-  --line: #232b26;
-  --text: #e9ece9;
-  --text-dim: #8a9690;
-  --accent: #5fd98a;
-  --accent-dim: #3a7a54;
+  --bg: #14171a;
+  --panel: #1a1d21;
+  --panel-raised: #202429;
+  --line: #2c3137;
+  --text: #edeef0;
+  --text-dim: #8b9299;
+  --accent: #f2874f;
+  --accent-dim: #a85a34;
+  --blue: #5b8dbf;
+  --blue-dim: #3d6288;
   --warn: #e0a458;
   --danger: #d9705f;
   --radius: 6px;
@@ -41,8 +43,8 @@ button, input {
 }
 
 .status-dot--on {
-  background: var(--accent);
-  box-shadow: 0 0 6px var(--accent);
+  background: var(--blue);
+  box-shadow: 0 0 6px var(--blue);
 }
 
 .btn-primary {
@@ -85,7 +87,7 @@ button, input {
   min-height: 100vh;
   padding: 24px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(95, 217, 138, 0.06), transparent 60%),
+    radial-gradient(circle at 50% 0%, rgba(91, 141, 191, 0.08), transparent 60%),
     var(--bg);
 }
 
@@ -142,7 +144,7 @@ button, input {
 }
 
 .field-input:focus {
-  border-color: var(--accent-dim);
+  border-color: var(--blue);
 }
 
 .btn-primary {
@@ -226,8 +228,8 @@ button, input {
 }
 
 .nav-tab.is-active {
-  color: var(--accent);
-  border-left-color: var(--accent);
+  color: var(--blue);
+  border-left-color: var(--blue);
   background: var(--panel-raised);
 }
 
@@ -287,6 +289,150 @@ button, input {
   font-size: 14px;
 }
 
+.section-header--row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius);
+  padding: 9px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.btn-danger:hover {
+  background: rgba(217, 112, 95, 0.1);
+}
+
+/* ---------- notes grid ---------- */
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.note-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  min-height: 120px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.note-card:hover {
+  border-color: var(--accent-dim);
+}
+
+.note-card.is-dragging {
+  opacity: 0.4;
+}
+
+.note-card.is-drop-target {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+
+.note-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-card-preview {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-wrap;
+}
+
+/* ---------- note edit modal ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 10, 12, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 50;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-panel {
+  width: 100%;
+  max-width: 480px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.note-title-input {
+  background: var(--panel-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 12px;
+  outline: none;
+}
+
+.note-title-input:focus,
+.note-body-input:focus {
+  border-color: var(--blue);
+}
+
+.note-body-input {
+  background: var(--panel-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-size: 14px;
+  padding: 12px;
+  min-height: 180px;
+  resize: vertical;
+  outline: none;
+  font-family: var(--sans);
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-actions-right {
+  display: flex;
+  gap: 8px;
+}
+
 @media (max-width: 640px) {
   .app-shell {
     flex-direction: column;
@@ -307,7 +453,7 @@ button, input {
     white-space: nowrap;
   }
   .nav-tab.is-active {
-    border-bottom-color: var(--accent);
+    border-bottom-color: var(--blue);
   }
   .sidebar-footer {
     flex-direction: row;
