@@ -19,7 +19,7 @@ form.addEventListener("submit", async (e) => {
   const submitBtn = form.querySelector(".btn-primary");
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "Unlocking…";
+  submitBtn.textContent = "Logging in…";
 
   try {
     await auth.signInWithEmailAndPassword(email, password);
@@ -27,7 +27,7 @@ form.addEventListener("submit", async (e) => {
   } catch (err) {
     errorEl.textContent = describeAuthError(err.code);
     submitBtn.disabled = false;
-    submitBtn.textContent = "Unlock";
+    submitBtn.textContent = "Login";
   }
 });
 
