@@ -285,7 +285,7 @@ button, input {
   border: 1px dashed var(--line);
   border-radius: var(--radius);
   padding: 32px;
-  color: var(--text-dim);
+  color: #e03131;
   font-size: 14px;
 }
 
