@@ -1,14 +1,25 @@
 :root {
-  --bg: #14171a;
-  --panel: #1a1d21;
-  --panel-raised: #202429;
-  --line: #2c3137;
+  --bg: #15171f;
+  --panel: #1b1e27;
+  --panel-raised: #21252f;
+  --line: #2d3240;
   --text: #edeef0;
   --text-dim: #8b9299;
   --accent: #f2874f;
   --accent-dim: #a85a34;
   --blue: #5b8dbf;
   --blue-dim: #3d6288;
+
+  /* lighthouse palette (from the logo) */
+  --lh-blue: #3b41c5;
+  --lh-blue-deep: #2c31a0;
+  --lh-blue-bright: #1559e8;
+  --lh-yellow: #ffe01a;
+  --lh-gold: #ffc21a;
+  --lh-amber: #ffa41a;
+  --lh-orange: #ff7a18;
+  --lh-navy: #232447;
+  --lh-ink: #14152e;
   --warn: #e0a458;
   --danger: #d9705f;
   --radius: 6px;
@@ -166,29 +177,65 @@ button, input {
 }
 
 .sidebar {
-  width: 220px;
+  width: 232px;
   flex-shrink: 0;
-  background: var(--panel);
-  border-right: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 26px 60px, rgba(255, 224, 26, 0.22), transparent 62%),
+    var(--lh-blue);
+  border-right: none;
   display: flex;
   flex-direction: column;
-  padding: 20px 12px;
+  padding: 22px 0 20px 0;
+  position: relative;
+  overflow: visible;
 }
+
+/* stylized divider: bright blue rail + blocky beam ticks reading into the panel */
+.sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -9px;
+  width: 9px;
+  height: 100%;
+  background:
+    linear-gradient(to right, var(--lh-blue-bright) 0 5px, var(--lh-blue-deep) 5px 9px),
+    var(--lh-blue-deep);
+  background-repeat: repeat-y;
+  z-index: 2;
+}
+
+/* ---------- lamp mark ---------- */
 
 .sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 0 8px;
-  margin-bottom: 24px;
+  gap: 10px;
+  padding: 0 16px;
+  margin-bottom: 22px;
 }
+
+.lamp-mark {
+  width: 30px;
+  height: 28px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.lamp-spark { fill: var(--lh-yellow); stroke: var(--lh-ink); stroke-width: 1.5; }
+.lamp-core  { fill: var(--lh-orange); stroke: var(--lh-ink); stroke-width: 1.5; }
+.lamp-cap   { fill: var(--lh-ink); }
+.lamp-tower { fill: var(--lh-navy); stroke: var(--lh-ink); stroke-width: 2; }
 
 .sidebar-brand-text {
   font-family: var(--mono);
   font-size: 13px;
-  letter-spacing: 0.02em;
-  color: var(--text-dim);
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--lh-yellow);
 }
+
+/* ---------- beam tabs ---------- */
 
 .nav-list {
   list-style: none;
@@ -196,47 +243,74 @@ button, input {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
 }
 
 .nav-tab {
-  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
-  background: transparent;
+  background: var(--lh-yellow);
   border: none;
-  border-left: 2px solid transparent;
-  color: var(--text-dim);
-  padding: 9px 10px;
-  font-size: 14px;
-  border-radius: 0 var(--radius) var(--radius) 0;
+  border-radius: 0;
+  color: var(--lh-ink);
+  padding: 11px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   cursor: pointer;
   text-align: left;
-  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  /* slanted right edge — reads as a beam, not a menu row */
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  transition: background 0.28s ease, color 0.2s ease, width 0.18s ease, transform 0.14s ease, filter 0.14s ease;
 }
 
+/* staggered beam lengths, like the stripes in the logo */
+.nav-tab { width: 100%; }
+.nav-list li:nth-child(1) .nav-tab { width: 88%; }
+.nav-list li:nth-child(2) .nav-tab { width: 100%; }
+.nav-list li:nth-child(3) .nav-tab { width: 82%; }
+.nav-list li:nth-child(4) .nav-tab { width: 95%; }
+.nav-list li:nth-child(5) .nav-tab { width: 86%; }
+
+/* heat radiates out from the active beam and cools with distance */
+.nav-tab.heat-0 {
+  background: var(--lh-orange);
+  color: #fff8ec;
+}
+.nav-tab.heat-1 { background: var(--lh-amber); }
+.nav-tab.heat-2 { background: var(--lh-gold); }
+.nav-tab.heat-3 { background: var(--lh-yellow); }
+
 .nav-tab-icon {
-  font-size: 14px;
-  width: 16px;
-  text-align: center;
+  display: none;
 }
 
 .nav-tab:hover {
-  color: var(--text);
-  background: var(--panel-raised);
+  filter: brightness(1.08);
+  transform: translateX(3px);
 }
 
-.nav-tab.is-active {
-  color: var(--blue);
-  border-left-color: var(--blue);
-  background: var(--panel-raised);
+.nav-tab.is-active,
+.nav-tab.is-active.heat-0 {
+  background: var(--lh-orange);
+  color: #fff8ec;
+  width: 100%;
+  transform: none;
+  filter: none;
 }
+
+.nav-tab:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+}
+
+/* ---------- sidebar footer ---------- */
 
 .sidebar-footer {
   margin-top: auto;
-  padding: 12px 8px 0;
-  border-top: 1px solid var(--line);
+  padding: 14px 16px 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.16);
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -244,17 +318,34 @@ button, input {
 
 .user-email {
   font-family: var(--mono);
-  font-size: 12px;
-  color: var(--text-dim);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.72);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.sidebar-footer .btn-ghost {
+  color: var(--lh-yellow);
+  border-color: rgba(255, 224, 26, 0.45);
+  border-radius: 0;
+  font-weight: 600;
+}
+
+.sidebar-footer .btn-ghost:hover {
+  color: var(--lh-ink);
+  background: var(--lh-yellow);
+  border-color: var(--lh-yellow);
+}
+
 .main-panel {
   flex: 1;
-  padding: 40px 48px;
+  padding: 40px 48px 40px 60px;
   min-width: 0;
+  /* blue bleeds off the divider and dissolves into the gray */
+  background:
+    linear-gradient(to right, rgba(59, 65, 197, 0.30) 0, rgba(59, 65, 197, 0.10) 90px, transparent 260px),
+    var(--bg);
 }
 
 .section-view {
@@ -440,28 +531,43 @@ button, input {
   .sidebar {
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid var(--line);
+    padding: 16px 0 14px;
+  }
+  .sidebar::after {
+    top: auto;
+    bottom: -9px;
+    right: 0;
+    width: 100%;
+    height: 9px;
+    background: linear-gradient(to bottom, var(--lh-blue-bright) 0 5px, var(--lh-blue-deep) 5px 9px);
+  }
+  .main-panel {
+    padding: 28px 20px;
+    background:
+      linear-gradient(to bottom, rgba(59, 65, 197, 0.30) 0, rgba(59, 65, 197, 0.10) 70px, transparent 180px),
+      var(--bg);
   }
   .nav-list {
     flex-direction: row;
     overflow-x: auto;
+    gap: 4px;
+    padding: 0 12px;
   }
-  .nav-tab {
-    border-left: none;
-    border-bottom: 2px solid transparent;
-    border-radius: var(--radius) var(--radius) 0 0;
+  /* beams run horizontally on mobile — drop the stagger, keep the slant */
+  .nav-list li .nav-tab,
+  .nav-list li:nth-child(n) .nav-tab {
+    width: auto;
     white-space: nowrap;
+    flex-shrink: 0;
+    padding: 10px 16px;
   }
-  .nav-tab.is-active {
-    border-bottom-color: var(--blue);
+  .nav-tab:hover {
+    transform: none;
   }
   .sidebar-footer {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     margin-top: 12px;
-  }
-  .main-panel {
-    padding: 28px 20px;
   }
 }

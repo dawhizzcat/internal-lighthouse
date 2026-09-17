@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>home</title>
+  <title>Home Terminal</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="app-body">
@@ -11,8 +11,16 @@
 <div class="app-shell">
   <nav class="sidebar" aria-label="Sections">
     <div class="sidebar-brand">
-      <span class="status-dot status-dot--on" aria-hidden="true"></span>
-      <span class="sidebar-brand-text">home</span>
+      <svg class="lamp-mark" viewBox="0 0 48 44" aria-hidden="true">
+        <!-- spark -->
+        <polygon class="lamp-spark" points="24,0 28,8 36,11 28,14 24,22 20,14 12,11 20,8" />
+        <rect class="lamp-core" x="20" y="7" width="8" height="8" transform="rotate(45 24 11)" />
+        <!-- lamp cap -->
+        <polygon class="lamp-cap" points="12,20 36,20 31,26 17,26" />
+        <!-- tower -->
+        <polygon class="lamp-tower" points="17,26 31,26 34,44 14,44" />
+      </svg>
+      <span class="sidebar-brand-text">Lighthouse</span>
     </div>
 
     <ul class="nav-list">
@@ -20,6 +28,12 @@
         <button class="nav-tab is-active" data-section="files">
           <span class="nav-tab-icon" aria-hidden="true"></span>
           <span>Files</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-tab" data-section="project-files">
+          <span class="nav-tab-icon" aria-hidden="true"></span>
+          <span>Project Files</span>
         </button>
       </li>
       <li>
@@ -49,6 +63,7 @@
   </nav>
 
   <main class="main-panel">
+
     <section class="section-view is-active" id="section-files" aria-labelledby="section-files-title">
       <div class="section-header">
         <h1 class="section-title" id="section-files-title">Files</h1>
@@ -59,9 +74,19 @@
       </div>
     </section>
 
+    <section class="section-view" id="section-project-files" aria-labelledby="section-project-files-title">
+      <div class="section-header">
+        <h1 class="section-title" id="section-project-files-title">Project Files</h1>
+        <p class="section-sub">Project file storage</p>
+      </div>
+      <div class="empty-state">
+        <p>Loading Failed</p>
+      </div>
+    </section>
+
     <section class="section-view" id="section-smarthome" aria-labelledby="section-smarthome-title">
       <div class="section-header">
-        <h1 class="section-title" id="section-smarthome-title">Smart Home</h1>
+        <h1 class="section-title" id="section-smarthome-title">Home IOT</h1>
         <p class="section-sub">Lighting control, cameras, etc</p>
       </div>
       <div class="empty-state">
@@ -84,7 +109,7 @@
     <section class="section-view" id="section-lists" aria-labelledby="section-lists-title">
       <div class="section-header">
         <h1 class="section-title" id="section-lists-title">Lists</h1>
-        <p class="section-sub">Checklists and to-do lists</p>
+        <p class="section-sub">Checklists and TODO lists</p>
       </div>
       <div class="empty-state">
         <p>Loading Failed</p>
