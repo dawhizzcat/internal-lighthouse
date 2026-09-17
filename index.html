@@ -8,10 +8,65 @@
 </head>
 <body class="login-body">
 
+<svg class="login-scene" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <rect x="0" y="0" width="1200" height="700" fill="#252a93" />
+  <rect x="0" y="330" width="1200" height="370" fill="#2f35ae" />
+
+  <g class="scene-bands">
+    <rect x="0" y="300" width="1200" height="8" fill="#ffe01a" opacity="0.12" />
+    <rect x="0" y="318" width="1200" height="9" fill="#ffc21a" opacity="0.14" />
+    <rect x="0" y="336" width="1200" height="10" fill="#ffa41a" opacity="0.16" />
+    <rect x="0" y="356" width="1200" height="11" fill="#ff7a18" opacity="0.18" />
+    <rect x="0" y="388" width="1200" height="14" fill="#ffe01a" opacity="0.32" />
+    <rect x="0" y="412" width="1200" height="14" fill="#ffc21a" opacity="0.32" />
+    <rect x="0" y="436" width="1200" height="14" fill="#ffa41a" opacity="0.32" />
+    <rect x="0" y="460" width="1200" height="14" fill="#ff7a18" opacity="0.32" />
+    <rect x="0" y="484" width="1200" height="12" fill="#ff7a18" opacity="0.20" />
+  </g>
+
+  <g class="scene-layer layer-far">
+    <g>
+      <polygon fill="#1e2270"
+        points="0,455 90,395 170,430 260,375 350,425 450,365 540,410 620,370 710,415 800,368 890,420 980,385 1070,430 1160,392 1200,455 1200,700 0,700" />
+    </g>
+    <g transform="translate(1200,0)">
+      <polygon fill="#1e2270"
+        points="0,455 90,395 170,430 260,375 350,425 450,365 540,410 620,370 710,415 800,368 890,420 980,385 1070,430 1160,392 1200,455 1200,700 0,700" />
+    </g>
+  </g>
+
+  <g class="scene-layer layer-mid">
+    <g>
+      <polygon fill="#181b5e"
+        points="0,520 80,470 180,505 300,445 400,492 480,398 545,495 600,514 660,492 720,388 800,480 900,442 1000,500 1100,455 1200,520 1200,700 0,700" />
+    </g>
+    <g transform="translate(1200,0)">
+      <polygon fill="#181b5e"
+        points="0,520 80,470 180,505 300,445 400,492 480,398 545,495 600,514 660,492 720,388 800,480 900,442 1000,500 1100,455 1200,520 1200,700 0,700" />
+    </g>
+  </g>
+
+  <g class="scene-layer layer-fg">
+    <g>
+      <polygon fill="#101233"
+        points="0,600 120,545 240,586 360,530 480,576 600,540 720,582 840,534 960,578 1080,546 1200,600 1200,700 0,700" />
+    </g>
+    <g transform="translate(1200,0)">
+      <polygon fill="#101233"
+        points="0,600 120,545 240,586 360,530 480,576 600,540 720,582 840,534 960,578 1080,546 1200,600 1200,700 0,700" />
+    </g>
+  </g>
+</svg>
+
 <main class="login-panel" role="main">
+  <div class="login-stripes" aria-hidden="true">
+    <span class="login-stripe s1"></span>
+    <span class="login-stripe s2"></span>
+    <span class="login-stripe s3"></span>
+  </div>
+
   <div class="login-header">
-    <!-- <span class="status-dot" id="status-dot" aria-hidden="true"></span> -->
-    <span class="login-eyebrow">home terminal</span>
+    <span class="login-eyebrow">lighthouse</span>
   </div>
 
   <h1 class="login-title">Sign in</h1>
