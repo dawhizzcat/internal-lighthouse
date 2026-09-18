@@ -3,26 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>home / login</title>
+  <title>Home terminal login</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="login-body">
 
 <svg class="login-scene" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-  <rect x="0" y="0" width="1200" height="700" fill="#252a93" />
-  <rect x="0" y="330" width="1200" height="370" fill="#2f35ae" />
+  <defs>
+    <linearGradient id="bandGradient" gradientUnits="userSpaceOnUse" x1="0" y1="220" x2="0" y2="510">
+      <stop offset="0%" stop-color="#ffe066" />
+      <stop offset="45%" stop-color="#ffb020" />
+      <stop offset="100%" stop-color="#ff6a10" />
+    </linearGradient>
+    <linearGradient id="skyGradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="700">
+      <stop class="sky-stop-top" offset="0%" />
+      <stop class="sky-stop-bottom" offset="100%" />
+    </linearGradient>
+  </defs>
 
-  <g class="scene-bands">
-    <rect x="0" y="300" width="1200" height="8" fill="#ffe01a" opacity="0.12" />
-    <rect x="0" y="318" width="1200" height="9" fill="#ffc21a" opacity="0.14" />
-    <rect x="0" y="336" width="1200" height="10" fill="#ffa41a" opacity="0.16" />
-    <rect x="0" y="356" width="1200" height="11" fill="#ff7a18" opacity="0.18" />
-    <rect x="0" y="388" width="1200" height="14" fill="#ffe01a" opacity="0.32" />
-    <rect x="0" y="412" width="1200" height="14" fill="#ffc21a" opacity="0.32" />
-    <rect x="0" y="436" width="1200" height="14" fill="#ffa41a" opacity="0.32" />
-    <rect x="0" y="460" width="1200" height="14" fill="#ff7a18" opacity="0.32" />
-    <rect x="0" y="484" width="1200" height="12" fill="#ff7a18" opacity="0.20" />
-  </g>
+  <rect x="0" y="0" width="1200" height="700" fill="url(#skyGradient)" />
+
+  <g id="star-field"></g>
+
+  <g id="bands-group"></g>
 
   <g class="scene-layer layer-far">
     <g>
@@ -83,6 +86,154 @@
     <p class="login-error" id="login-error" role="alert" aria-live="polite"></p>
   </form>
 </main>
+
+<script>
+  (function () {
+    const bandsGroup = document.getElementById("bands-group");
+    const starField = document.getElementById("star-field");
+    const gradient = document.getElementById("bandGradient");
+    const body = document.body;
+
+    // Each period's bands: [y, height, opacity]. Count/spacing/position
+    // differ per period, not just color — day bands sit higher and
+    // tighter (high sun), evening is the wide warm band, night is a
+    // sparse, faint glow low on the horizon.
+    const BAND_SETS_ORG_UNUSED = {
+      day: [
+        [225, 8, 0.05], [243, 8, 0.06], [261, 9, 0.07], [281, 9, 0.08],
+        [302, 10, 0.09], [324, 11, 0.10], [348, 12, 0.11], [373, 13, 0.12],
+        [400, 14, 0.13], [429, 15, 0.13], [459, 16, 0.11], [490, 14, 0.08],
+      ],
+      evening: [
+        [300, 8, 0.06], [318, 9, 0.07], [336, 10, 0.08], [356, 11, 0.09],
+        [388, 14, 0.16], [412, 14, 0.16], [436, 14, 0.16], [460, 14, 0.16],
+        [484, 12, 0.10],
+      ],
+      night: [
+        [430, 10, 0.04], [452, 12, 0.06], [476, 14, 0.08], [500, 16, 0.06],
+      ],
+    };
+
+    const BAND_SETS = {
+      day: [
+         [261, 9, 1], [281, 9, 1],
+        [302, 10, 1], [324, 11, 1], [348, 12, 1], [373, 13, 1],
+        [400, 14, 1], [429, 15, 1],
+      ],
+      evening: [
+        [300, 8, 0.06], [318, 9, 0.07], [336, 10, 0.08], [356, 11, 0.09],
+        [388, 14, 0.16], [412, 14, 0.16], [436, 14, 0.16], [460, 14, 0.16],
+        [484, 12, 0.10],
+      ],
+      night: [
+        [430, 10, 0.04], [452, 12, 0.06], [476, 14, 0.08], [500, 16, 0.06],
+      ],
+    };
+
+    function renderBands(period) {
+      const specs = BAND_SETS[period];
+      bandsGroup.innerHTML = "";
+
+      let minY = Infinity, maxY = -Infinity;
+      specs.forEach(([y, h, op]) => {
+        minY = Math.min(minY, y);
+        maxY = Math.max(maxY, y + h);
+
+        const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        rect.setAttribute("x", "0");
+        rect.setAttribute("y", y);
+        rect.setAttribute("width", "1200");
+        rect.setAttribute("height", h);
+        rect.setAttribute("fill", "url(#bandGradient)");
+        rect.setAttribute("opacity", op);
+        bandsGroup.appendChild(rect);
+      });
+
+      // Stretch the gradient to match this period's actual band span,
+      // so yellow/amber-to-orange always runs top-to-bottom correctly.
+      gradient.setAttribute("y1", minY);
+      gradient.setAttribute("y2", maxY);
+    }
+
+    function renderStars() {
+      starField.innerHTML = "";
+      const count = 70;
+      for (let i = 0; i < count; i++) {
+        const cx = Math.random() * 1200;
+        const cy = 10 + Math.random() * 320; // stay above the tallest ridge peak
+        const r = 0.5 + Math.random() * 1.4;
+        const dim = (0.15 + Math.random() * 0.25).toFixed(2);
+        const bright = (0.7 + Math.random() * 0.3).toFixed(2);
+        const delay = (Math.random() * 4.5).toFixed(2);
+
+        const star = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        star.setAttribute("cx", cx.toFixed(1));
+        star.setAttribute("cy", cy.toFixed(1));
+        star.setAttribute("r", r.toFixed(2));
+        star.setAttribute("fill", "#ffffff");
+        star.style.setProperty("--star-min", dim);
+        star.style.setProperty("--star-max", bright);
+        star.style.animationDelay = `-${delay}s`;
+        star.classList.add("star-twinkle");
+        starField.appendChild(star);
+      }
+    }
+
+    function getPeriod() {
+      if (forcedPeriod) return forcedPeriod;
+      const hour = new Date().getHours();
+      if (hour >= 6 && hour < 18) return "day";
+      if (hour >= 18 && hour < 21) return "evening";
+      return "night";
+    }
+
+    let currentPeriod = null;
+    let forcedPeriod = null;
+
+    function applyPeriod(force) {
+      if (force !== undefined) forcedPeriod = force;
+      const period = getPeriod();
+      if (period === currentPeriod) return;
+
+      body.classList.remove("time-day", "time-evening", "time-night");
+      body.classList.add(`time-${period}`);
+      renderBands(period);
+
+      if (period === "night") {
+        renderStars();
+      } else {
+        starField.innerHTML = "";
+      }
+
+      currentPeriod = period;
+    }
+
+    applyPeriod();
+    // Re-check periodically in case the page is left open across a
+    // day/evening/night boundary. A forced period (from the debug
+    // switcher below) takes priority over the clock until cleared.
+    setInterval(() => applyPeriod(), 5 * 60 * 1000);
+
+    // ---- TEMPORARY debug switcher — remove once time-of-day is verified ----
+    const debugBar = document.createElement("div");
+    debugBar.className = "debug-time-switcher";
+    debugBar.innerHTML = `
+      <span class="debug-time-label">time debug</span>
+      <button type="button" data-p="day">Day</button>
+      <button type="button" data-p="evening">Evening</button>
+      <button type="button" data-p="night">Night</button>
+      <button type="button" data-p="">Auto</button>
+    `;
+    debugBar.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-p]");
+      if (!btn) return;
+      currentPeriod = null; // force re-render even if same period as before
+      applyPeriod(btn.dataset.p || null);
+    });
+    document.body.appendChild(debugBar);
+    // ---- end debug switcher ----
+  })();
+</script>
 
 <!-- Firebase SDKs (compat build — no bundler needed) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>

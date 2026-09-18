@@ -20,11 +20,25 @@
   --lh-orange: #ff7a18;
   --lh-navy: #232447;
   --lh-ink: #14152e;
+
+  /* time-of-day sky — default is evening/dusk (the original scene) */
+  --sky-base: #252a93;
+  --sky-lower: #2f35ae;
   --warn: #e0a458;
   --danger: #d9705f;
   --radius: 6px;
   --mono: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body.time-day {
+  --sky-base: #4f8fd1;
+  --sky-lower: #7ab8e8;
+}
+
+body.time-night {
+  --sky-base: #05060d;
+  --sky-lower: #0a0d24;
 }
 
 * { box-sizing: border-box; }
@@ -108,6 +122,72 @@ button, input {
   height: 100%;
   z-index: 0;
   pointer-events: none;
+}
+
+.sky-stop-top {
+  stop-color: var(--sky-base);
+  transition: stop-color 1.4s ease;
+}
+
+.sky-stop-bottom {
+  stop-color: var(--sky-lower);
+  transition: stop-color 1.4s ease;
+}
+
+.debug-time-switcher {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(10, 12, 20, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 6px;
+  padding: 6px 8px;
+  font-family: var(--mono);
+}
+
+.debug-time-label {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-right: 2px;
+}
+
+.debug-time-switcher button {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  font-size: 11px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.debug-time-switcher button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.star-twinkle {
+  animation: star-twinkle 4.5s ease-in-out infinite;
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: var(--star-min, 0.25); }
+  50%      { opacity: var(--star-max, 1); }
+}
+
+body.time-night .layer-far,
+body.time-night .layer-mid,
+body.time-night .layer-fg {
+  filter: brightness(0.62);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star-twinkle { animation: none; }
 }
 
 .scene-layer {
